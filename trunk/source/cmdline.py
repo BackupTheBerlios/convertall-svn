@@ -45,11 +45,12 @@ def parseArgs(opts, args):
     except unitdata.UnitDataError, text:
         print 'Error in unit data - %s' % text
         sys.exit(1)
+    numStr = args[0]
     try:
-        num = float(args[0])
+        float(numStr)
         del args[0]
     except (ValueError, IndexError):
-        num = 1.0
+        numStr = '1.0'
     fromUnit = None
     if args:
         fromUnit = getUnit(data, options, args.pop(0))
@@ -69,8 +70,9 @@ def parseArgs(opts, args):
             toUnit = getUnit(data, options, toText)
         if fromUnit.categoryMatch(toUnit):
             while True:
-                print '%f %s = %f %s' % (num, fromUnit.unitString(),
-                                         fromUnit.convert(num, toUnit),
+                print '%s %s = %s %s' % (numStr, fromUnit.unitString(),
+                                         fromUnit.convertStr(float(numStr),
+                                                             toUnit),
                                          toUnit.unitString())
                 print
                 rep = raw_input('Enter number, [n]ew, [r]everse or [q]uit -> ')
@@ -81,12 +83,13 @@ def parseArgs(opts, args):
                 elif rep[0] in ('n', 'N'):
                     fromUnit = None
                     toUnit = None
-                    num = 1.0
+                    numStr = '1.0'
                     print
                     break
                 else:
                     try:
-                        num = float(rep)
+                        float(rep)
+                        numStr = rep
                     except ValueError:
                         pass
         else:
