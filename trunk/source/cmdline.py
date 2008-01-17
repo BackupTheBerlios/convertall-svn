@@ -13,9 +13,10 @@
 #*****************************************************************************
 
 import sys
-from option import Option
+import option
 import optiondefaults
 import unitdata
+import unitgroup
 
 usage = ['',
          'Usage:',
@@ -27,8 +28,8 @@ usage = ['',
          '   convertall [QUANTITY] FROM_UNIT TO_UNIT',
          '']
 
-options = 'h'
-longOptions = ['help']
+availOptions = 'h'
+availLongOptions = ['help']
 
 def parseArgs(opts, args):
     """Parse the command line and output conversion results"""
@@ -36,15 +37,74 @@ def parseArgs(opts, args):
         if opt in ('-h', '--help'):
             printUsage()
             return
-    options = Option('convertall', 20)
+    options = option.Option('convertall', 20)
     options.loadAll(optiondefaults.defaultList)
-    unitData = unitdata.UnitData()
+    data = unitdata.UnitData()
     try:
-        unitData.readData()
+        data.readData()
     except unitdata.UnitDataError, text:
         print 'Error in unit data - %s' % text
         sys.exit(1)
+    try:
+        num = float(args[0])
+        del args[0]
+    except (ValueError, IndexError):
+        num = 1.0
+    fromUnit = None
+    if args:
+        fromUnit = getUnit(data, options, args.pop(0))
+    toUnit = None
+    if args:
+        toUnit = getUnit(data, options, args[0])
+    while True:
+        while not fromUnit:
+            fromText = raw_input('Enter from unit -> ')
+            if not fromText:
+                return
+            fromUnit = getUnit(data, options, fromText)
+        while not toUnit:
+            toText = raw_input('Enter to unit -> ')
+            if not toText:
+                return
+            toUnit = getUnit(data, options, toText)
+        if fromUnit.categoryMatch(toUnit):
+            while True:
+                print '%f %s = %f %s' % (num, fromUnit.unitString(),
+                                         fromUnit.convert(num, toUnit),
+                                         toUnit.unitString())
+                print
+                rep = raw_input('Enter number, [n]ew, [r]everse or [q]uit -> ')
+                if not rep or rep[0] in ('q', 'Q'):
+                    return
+                if rep[0] in ('r', 'R'):
+                    fromUnit, toUnit = toUnit, fromUnit
+                elif rep[0] in ('n', 'N'):
+                    fromUnit = None
+                    toUnit = None
+                    num = 1.0
+                    print
+                    break
+                else:
+                    try:
+                        num = float(rep)
+                    except ValueError:
+                        pass
+        else:
+            print 'Units %s and %s are not compatible' % \
+                         (fromUnit.unitString(), toUnit.unitString())
+            fromUnit = None
+            toUnit = None
 
+def getUnit(data, options, text):
+    """Create unit from text, check unit is valid,
+       return reduced unit or None"""
+    unit = unitgroup.UnitGroup(data, options)
+    unit.update(text)
+    if unit.groupValid():
+        unit.reduceGroup()
+        return unit
+    print '%s is not a valid unit' % text
+    return None
 
 def printUsage():
     """Print usage text"""

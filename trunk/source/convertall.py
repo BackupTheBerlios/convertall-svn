@@ -32,8 +32,8 @@ if __name__ == '__main__':
     userStyle = '-style' in ' '.join(sys.argv)
     app = QtGui.QApplication(sys.argv)
     try:
-        opts, args = getopt.gnu_getopt(sys.argv, cmdline.options,
-                                       cmdline.longOptions)
+        opts, args = getopt.gnu_getopt(sys.argv, cmdline.availOptions,
+                                       cmdline.availLongOptions)
     except getopt.GetoptError:
         cmdline.printUsage()
         sys.exit(2)
