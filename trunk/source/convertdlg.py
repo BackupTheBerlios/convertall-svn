@@ -47,7 +47,8 @@ class ConvertDlg(QtGui.QWidget):
         self.option = Option('convertall', 20)
         self.option.loadAll(optiondefaults.defaultList)
         try:
-            ConvertDlg.unitData.readData()
+            num = ConvertDlg.unitData.readData()
+            print '%d units loaded' % num
         except unitdata.UnitDataError, text:
             QtGui.QMessageBox.warning(self, 'ConvertAll',
                                       'Error in unit data - %s' % text)

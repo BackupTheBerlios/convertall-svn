@@ -46,7 +46,7 @@ class UnitData(dict):
         raise UnitDataError, 'Can not read "units.dat" file'
 
     def readData(self):
-        """Read all unit data from file"""
+        """Read all unit data from file, return number loaded"""
         modPath = os.path.abspath(sys.path[0])
         pathList = [dataFilePath, os.path.join(modPath, '../data/'),
                     modPath]
@@ -70,9 +70,9 @@ class UnitData(dict):
             self[unit.name.lower().replace(' ', '')] = unit
         self.sortedKeys = self.keys()
         self.sortedKeys.sort()
-        print '%d units loaded' % len(units)
         if len(self.sortedKeys) < len(units):
             raise UnitDataError, 'Duplicate unit names found'
+        return len(units)
 
     def findPartialMatch(self, text):
         """Return first partially matching unit or None"""
