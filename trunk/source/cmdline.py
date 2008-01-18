@@ -19,38 +19,59 @@ import unitdata
 import unitgroup
 
 usage = ['',
-         'Usage:',
+         'usage:  convertall [<qt-options>]',
+         '   or:  convertall [<options>] [<number>] <from_unit> <to_unit>',
+         '   or:  convertall -i [<options>]',
          '',
-         '   convertall [QT-OPTIONS]',
-         '',
-         '-or- (non-interactive):',
-         '',
-         '   convertall [QUANTITY] FROM_UNIT TO_UNIT',
+         'options:',
+         '   -d, --decimals=<num>  set number of decimals to show',
+         '   -f, --fixed-decimals  show set number of decimals, even if zeros',
+         '   -h, --help            display this message and exit',
+         '   -i, --interactive     use interactive comand line mode (not GUI)',
+         '   -q, --quiet           convert without further prompts',
+         '   -s, --sci-notation    show results in scientific notation',
          '']
 
-availOptions = 'h'
-availLongOptions = ['help']
+availOptions = 'd:fhiqs'
+availLongOptions = ['decimals=', 'fixed-decimals', 'help', 'interactive',
+                    'quiet', 'sci-notation']
 
 def parseArgs(opts, args):
     """Parse the command line and output conversion results"""
+    options = option.Option('convertall', 20)
+    options.loadAll(optiondefaults.defaultList)
+    quiet = False
     for opt, arg in opts:
         if opt in ('-h', '--help'):
             printUsage()
             return
-    options = option.Option('convertall', 20)
-    options.loadAll(optiondefaults.defaultList)
+        if opt in ('-d', '--decimals'):
+            try:
+                decimals = int(arg)
+                if 0 <= decimals <= unitgroup.UnitGroup.maxDecPlcs:
+                    options.changeData('DecimalPlaces', arg, False)
+            except ValueError:
+                pass
+        elif opt in ('-f', '--fixed-decimals'):
+            options.changeData('FixedDecimals', 'yes', False)
+        elif opt in ('-s', '--sci-notation'):
+            options.changeData('SciNotation', 'yes', False)
+        elif opt in ('-q', '--quiet'):
+            quiet = True
     data = unitdata.UnitData()
     try:
         data.readData()
     except unitdata.UnitDataError, text:
         print 'Error in unit data - %s' % text
         sys.exit(1)
-    numStr = args[0]
-    try:
-        float(numStr)
-        del args[0]
-    except (ValueError, IndexError):
-        numStr = '1.0'
+    numStr = '1.0'
+    if args:
+        numStr = args[0]
+        try:
+            float(numStr)
+            del args[0]
+        except (ValueError, IndexError):
+            numStr = '1.0'
     fromUnit = None
     if args:
         fromUnit = getUnit(data, options, args.pop(0))
@@ -69,12 +90,16 @@ def parseArgs(opts, args):
                 return
             toUnit = getUnit(data, options, toText)
         if fromUnit.categoryMatch(toUnit):
+            badEntry = False
             while True:
-                print '%s %s = %s %s' % (numStr, fromUnit.unitString(),
-                                         fromUnit.convertStr(float(numStr),
-                                                             toUnit),
-                                         toUnit.unitString())
-                print
+                if not badEntry:
+                    print '%s %s = %s %s' % (numStr, fromUnit.unitString(),
+                                             fromUnit.convertStr(float(numStr),
+                                                                 toUnit),
+                                             toUnit.unitString())
+                    if quiet:
+                        return
+                badEntry = False
                 rep = raw_input('Enter number, [n]ew, [r]everse or [q]uit -> ')
                 if not rep or rep[0] in ('q', 'Q'):
                     return
@@ -91,10 +116,12 @@ def parseArgs(opts, args):
                         float(rep)
                         numStr = rep
                     except ValueError:
-                        pass
+                        badEntry = True
         else:
             print 'Units %s and %s are not compatible' % \
                          (fromUnit.unitString(), toUnit.unitString())
+            if quiet:
+                return
             fromUnit = None
             toUnit = None
 
