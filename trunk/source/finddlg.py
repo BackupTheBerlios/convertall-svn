@@ -16,7 +16,6 @@ import sys
 import os.path
 from PyQt4 import QtCore, QtGui
 import convertdlg
-import icons
 
 
 class FindDlg(QtGui.QWidget):
@@ -26,7 +25,6 @@ class FindDlg(QtGui.QWidget):
         self.setAttribute(QtCore.Qt.WA_QuitOnClose, False)
         self.mainDlg = mainDlg
         self.setWindowTitle('Unit Finder')
-        self.setWindowIcon(icons.iconDict['convert'])
         self.currentType = ''
         self.currentSearch = ''
 

@@ -16,10 +16,11 @@ import sys
 import os.path
 from PyQt4 import QtCore, QtGui
 try:
-    from __main__ import __version__, __author__, helpFilePath
+    from __main__ import __version__, __author__, helpFilePath, iconPath
 except ImportError:
     __version__ = __author__ = '??'
     helpFilePath = None
+    iconPath = None
 import unitdata
 from unitgroup import UnitGroup
 from option import Option
@@ -28,7 +29,7 @@ import unitlistview
 import numedit
 from modbutton import ModButton
 import finddlg
-import icons
+import icondict
 import optiondefaults
 import helpview
 import optiondlg
@@ -40,8 +41,15 @@ class ConvertDlg(QtGui.QWidget):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.setWindowTitle('ConvertAll')
-        icons.setupIcons()
-        self.setWindowIcon(icons.iconDict['convert'])
+        modPath = os.path.abspath(sys.path[0])
+        iconPathList = [iconPath, os.path.join(modPath, 'icons/'),
+                         os.path.join(modPath, '../icons')]
+        self.icons = icondict.IconDict()
+        self.icons.addIconPath(filter(None, iconPathList))
+        try:
+            QtGui.QApplication.setWindowIcon(self.icons['convertall_med'])
+        except KeyError:
+            pass
         self.helpView = None
         self.findDlg = None
         self.option = Option('convertall', 20)
@@ -209,7 +217,6 @@ class ConvertDlg(QtGui.QWidget):
         origBackground = self.getOptionColor('Background')
         origForeground = self.getOptionColor('Foreground')
         dlg = optiondlg.OptionDlg(self.option, self)
-        dlg.setWindowIcon(icons.iconDict['convert'])
         dlg.startGroupBox('Result Display')
         optiondlg.OptionDlgInt(dlg, 'DecimalPlaces', 'Decimal places',
                                0, UnitGroup.maxDecPlcs)
@@ -292,8 +299,7 @@ class ConvertDlg(QtGui.QWidget):
                                           'Read Me file not found')
                 return
             self.helpView = helpview.HelpView(path, 'ConvertAll README File',
-                                              icons.iconDict)
-            self.helpView.setWindowIcon(icons.iconDict['convert'])
+                                              self.icons)
         self.helpView.show()
 
     def about(self):
