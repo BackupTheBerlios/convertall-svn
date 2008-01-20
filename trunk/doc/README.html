@@ -8,8 +8,8 @@
 <h2>a unit conversion program</h2>
 
 <p>Written by Doug Bell<br>
-Version 0.4.0<br>
-October 5, 2006</p>
+Version 0.4.1<br>
+January 22, 2008</p>
 </center>
 
 <h2>Contents</h2>
@@ -30,7 +30,8 @@ October 5, 2006</p>
   <li><a href="#shortcut">Shortcuts</a></li>
   <li><a href="#finder">Unit Finder</a></li>
   <li><a href="#options">Options</a></li>
-  <li><a href="#nonlinear">Non-Linear Conversions</a></li></ul></li>
+  <li><a href="#nonlinear">Non-Linear Conversions</a></li>
+  <li><a href="#cmdline">Command Line Usage</a></li></ul></li>
 <li><a href="#revs">Revision History</a></li>
 <li><a href="#contact">Questions, Comments, Criticisms?</a></li>
 </ul>
@@ -83,6 +84,9 @@ feel free to let others know about it.  And let me know what you think
 
   <li>The format of the unit data file makes it easy to add additional
   units.</li>
+
+  <li>Command line options are available to do conversions without the
+  GUI.</li>
 
 </ul>
 
@@ -255,7 +259,56 @@ to the right of the "Type" column).</p>
 other units or used with an exponential operator.  Otherwise the
 conversion would not be meaningful.</p>
 
+<h3><a name="cmdline"></a>Command Line Usage</h3>
+
+<p>Conversions may be done from the command line (Linux or DOS console)
+without invoking the graphical interface.  Enter the command
+("convertall"), the number, the from unit and the to unit (separated by
+spaces) to do the conversion.  Unit names containing spaces should be
+surrounded by quotes.  Or, to be prompted for the entries, enter
+"convertall -i" on the command line.</p>
+
+<p>After the conversion is done, ConvertAll will prompt for a new number
+to do the same conversion.  Or "r" can be entered to reverse the
+conversion or "q" to quit.</p>
+
+<p>For a more detailed list of options, enter "convertall -h" on the
+command line.</p>
+
 <h2><a name="revs"></a>Revision History</h2>
+
+<h3>January 22, 2008- Release 0.4.1</h3>
+
+<ul><b>New features:</b>
+
+  <li>An optional command line mode was added to do conversions without the
+  graphical interface.  Enter the command ("convertall"), the number,
+  the from unit and the to unit (separated by spaces) to do the
+  conversion.  For a more detailed list of options, enter "convertall
+  -h" on the command line.</li>
+
+</ul>
+
+<ul><b>Updates:</b>
+
+  <li>The icon used for ConvertAll has been updated.  Thanks to Ricardo
+  Berlasso for the new artwork.</li>
+
+  <li>Alternate units have been added for kilobyte, megabyte, etc.,
+  marked "IEC std".  These convert using powers of 10, rather than
+  powers of 2.</li>
+
+  <li>Troy pounds and troy ounces have been added.</li>
+
+  <li>Gigapascal, hectopascal and megabar have been added.</li>
+
+  <li>Hogshead units for wine and beer have been added.</li>
+
+  <li>The Swedish mil unit of distance has been added.</li>
+
+  <li>The Thai rai and ngaan units of land area have been added.</li>
+
+</ul>
 
 <h3>October 5, 2006 - Release 0.4.0</h3>
 

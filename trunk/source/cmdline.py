@@ -23,11 +23,13 @@ usage = ['',
          '   or:  convertall [<options>] [<number>] <from_unit> <to_unit>',
          '   or:  convertall -i [<options>]',
          '',
+         'units with spaces must be "quoted"',
+         '',
          'options:',
          '   -d, --decimals=<num>  set number of decimals to show',
          '   -f, --fixed-decimals  show set number of decimals, even if zeros',
          '   -h, --help            display this message and exit',
-         '   -i, --interactive     use interactive comand line mode (not GUI)',
+         '   -i, --interactive     interactive command line mode (non-GUI)',
          '   -q, --quiet           convert without further prompts',
          '   -s, --sci-notation    show results in scientific notation',
          '']
@@ -70,7 +72,7 @@ def parseArgs(opts, args):
         try:
             float(numStr)
             del args[0]
-        except (ValueError, IndexError):
+        except (ValueError):
             numStr = '1.0'
     fromUnit = None
     if args:

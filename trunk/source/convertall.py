@@ -14,7 +14,7 @@
 """
 
 __progname__ = 'ConvertAll'
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 __author__ = 'Doug Bell'
 
 dataFilePath = None    # modified by install script if required
