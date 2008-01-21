@@ -86,6 +86,7 @@ Section "${NAME} (required)" convertall
 
 	; Put files there
 	File ".\lib\convertall.exe"
+        File ".\lib\convertall_dos.exe"
         File ".\lib\library.zip"
         File ".\lib\units.dat"
 	File ".\convertall.ico"
@@ -232,6 +233,7 @@ Section "Uninstall"
 	; Remove files and uninstaller
 
 	Delete "$INSTDIR\lib\convertall.exe"
+        Delete "$INSTDIR\lib\convertall_dos.exe"
         Delete "$INSTDIR\lib\library.zip"
         Delete "$INSTDIR\lib\units.dat"
 	Delete "$INSTDIR\lib\convertall.ico"

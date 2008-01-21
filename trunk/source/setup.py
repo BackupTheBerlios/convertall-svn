@@ -2,10 +2,17 @@
 from distutils.core import setup
 import py2exe
 
-setup(name='convertall',
-      windows = [{'script': 'convertall.py',
-                  'icon_resources': [(1, '../win/convertall.ico')]}],
-      options = {'py2exe': {'includes': ['sip', 'PyQt4._qt'],
-                            'dist_dir': 'dist/lib'}})
+guiProg = {'script': 'convertall.py',
+           'icon_resources': [(1, '../win/convertall.ico')],
+           'dest_base': 'convertall'}
+
+consoleProg = {'script': 'convertall.py',
+               'icon_resources': [(1, '../win/convertall.ico')],
+               'dest_base': 'convertall_dos'}
+
+options = {'py2exe': {'includes': ['sip', 'PyQt4._qt'],
+                      'dist_dir': 'dist/lib'}}
+
+setup(windows=[guiProg], console=[consoleProg], options=options)
 
 # run with: python setup.py py2exe
