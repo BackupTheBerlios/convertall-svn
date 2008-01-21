@@ -42,6 +42,8 @@ class ConvertDlg(QtGui.QWidget):
         QtGui.QWidget.__init__(self, parent)
         self.setWindowTitle('ConvertAll')
         modPath = os.path.abspath(sys.path[0])
+        if modPath.endswith('.zip'):  # for py2exe
+            modPath = os.path.dirname(modPath)
         iconPathList = [iconPath, os.path.join(modPath, 'icons/'),
                          os.path.join(modPath, '../icons')]
         self.icons = icondict.IconDict()
@@ -278,6 +280,8 @@ class ConvertDlg(QtGui.QWidget):
     def findHelpFile(self):
         """Return the path to the help file"""
         modPath = os.path.abspath(sys.path[0])
+        if modPath.endswith('.zip'):  # for py2exe
+            modPath = os.path.dirname(modPath)
         pathList = [helpFilePath, os.path.join(modPath, '../doc/'),
                     modPath, 'doc/']
         for path in filter(None, pathList):

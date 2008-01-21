@@ -48,6 +48,8 @@ class UnitData(dict):
     def readData(self):
         """Read all unit data from file, return number loaded"""
         modPath = os.path.abspath(sys.path[0])
+        if modPath.endswith('.zip'):  # for py2exe
+            modPath = os.path.dirname(modPath)
         pathList = [dataFilePath, os.path.join(modPath, '../data/'),
                     modPath]
         lines = self.findDataFile(filter(None, pathList))
