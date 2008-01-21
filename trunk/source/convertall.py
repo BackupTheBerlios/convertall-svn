@@ -22,27 +22,40 @@ helpFilePath = None    # modified by install script if required
 iconPath = None        # modified by install script if required
 
 import sys
-import signal
-import getopt
-from PyQt4 import QtGui
-import cmdline
-import convertdlg
+
+def hasCmdLineArgs():
+    """Return True if command line should be used"""
+    if len(sys.argv) <= 1:
+        return False
+    qtOpts = ['-style', '-stylesheet', '-session', '-widgetcount', '-reverse',
+              '-direct3d', '-display', '-geometry', '-fn', '-font', '-bg',
+              '-background', '-fg', '-foreground', '-btn', '-button', '-name',
+              '-title', '-visual', '-ncols', '-cmap', '-im', '-noxim',
+              '-inputstyle']
+    for arg in sys.argv[1:]:
+        for opt in qtOpts:
+            if arg.startswith(opt):
+                return False
+    return True
 
 
 if __name__ == '__main__':
-    userStyle = '-style' in ' '.join(sys.argv)
-    app = QtGui.QApplication(sys.argv)
-    try:
-        opts, args = getopt.gnu_getopt(sys.argv, cmdline.availOptions,
-                                       cmdline.availLongOptions)
-    except getopt.GetoptError:
-        cmdline.printUsage()
-        sys.exit(2)
-    args = args[1:]
-
-    if opts or args:
-        cmdline.parseArgs(opts, args)
+    if hasCmdLineArgs():
+        import getopt
+        import cmdline
+        try:
+            opts, args = getopt.gnu_getopt(sys.argv, cmdline.availOptions,
+                                           cmdline.availLongOptions)
+        except getopt.GetoptError:
+            cmdline.printUsage()
+            sys.exit(2)
+        cmdline.parseArgs(opts, args[1:])
     else:
+        import signal
+        from PyQt4 import QtGui
+        import convertdlg
+        userStyle = '-style' in ' '.join(sys.argv)
+        app = QtGui.QApplication(sys.argv)
         if not userStyle and not sys.platform.startswith('win'):
             QtGui.QApplication.setStyle('plastique')
         win = convertdlg.ConvertDlg()
