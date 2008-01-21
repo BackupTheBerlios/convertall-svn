@@ -3,7 +3,7 @@
 ; Created       : 2004-03-09
 ; By            : Doug Bell
 ; License       : Free to use, modify and distribute, but with no warranty.
-; Last modified : 2006-10-04
+; Last modified : 2008-01-21
 
 ; ConvertAll is a versatile unit conversion program
 ; Please check the website for details and updates <http://www.bellz.org/>.
@@ -16,7 +16,7 @@
 ; The name of the installer
 
 !define NAME "ConvertAll"
-!define VERSION "0.4.0"
+!define VERSION "0.4.1"
 
 ; Uncomment next line to include pyQt libraries in the installer
 !define PYQT
@@ -97,6 +97,17 @@ Section "${NAME} (required)" convertall
         File ".\doc\LICENSE"
         File ".\doc\README.html"
 
+        ; Create an icons directory.
+        SetOutPath "$INSTDIR\icons"
+
+        ; Put files there
+        File ".\icons\convertall_lg.png"
+        File ".\icons\convertall_med.png"
+        File ".\icons\convertall_sm.png"
+        File ".\icons\helpback.png"
+        File ".\icons\helpforward.png"
+        File ".\icons\helphome.png"
+
 SectionEnd
 
 !ifdef PYQT
@@ -107,20 +118,18 @@ SectionEnd
 
                 SetOutPath "$INSTDIR\lib"
 
+                File ".\lib\_qt.pyd"
 		File ".\lib\_socket.pyd"
 		File ".\lib\_ssl.pyd"
                 File ".\lib\bz2.pyd"
-                File ".\lib\mingwm10.dll"
                 File ".\lib\MSVCR71.dll"
-		File ".\lib\python24.dll"
-                File ".\lib\QtCore4.dll"
+		File ".\lib\python25.dll"
                 File ".\lib\QtCore.pyd"
-                File ".\lib\QtGui4.dll"
                 File ".\lib\QtGui.pyd"
+                File ".\lib\select.pyd"
                 File ".\lib\sip.pyd"
                 File ".\lib\unicodedata.pyd"
                 File ".\lib\w9xpopen.exe"
-                File ".\lib\zlib.pyd"
 
 	SectionEnd
 !endif
@@ -166,11 +175,12 @@ Section /o "${NAME} source code" source
 	File ".\install.ico"
 	File ".\uninstall.ico"
 
+        File ".\source\cmdline.py"
         File ".\source\convertall.py"
         File ".\source\convertdlg.py"
         File ".\source\finddlg.py"
         File ".\source\helpview.py"
-        File ".\source\icons.py"
+        File ".\source\icondict.py"
         File ".\source\modbutton.py"
         File ".\source\numedit.py"
         File ".\source\option.py"
@@ -229,12 +239,21 @@ Section "Uninstall"
         Delete "$INSTDIR\doc\LICENSE"
         Delete "$INSTDIR\doc\README.html"
 
+        Delete "$INSTDIR\icons\convertall_lg.png"
+        Delete "$INSTDIR\icons\convertall_med.png"
+        Delete "$INSTDIR\icons\convertall_sm.png"
+        Delete "$INSTDIR\icons\helpback.png"
+        Delete "$INSTDIR\icons\helpforward.png"
+        Delete "$INSTDIR\icons\helphome.png"
+
+        Delete "$INSTDIR\lib\_qt.pyd"
 	Delete "$INSTDIR\lib\_socket.pyd"
 	Delete "$INSTDIR\lib\_ssl.pyd"
         Delete "$INSTDIR\lib\bz2.pyd"
         Delete "$INSTDIR\lib\mingwm10.dll"
         Delete "$INSTDIR\lib\MSVCR71.dll"
 	Delete "$INSTDIR\lib\python24.dll"
+	Delete "$INSTDIR\lib\python25.dll"
         Delete "$INSTDIR\lib\QtCore4.dll"
         Delete "$INSTDIR\lib\QtCore.pyd"
         Delete "$INSTDIR\lib\QtGui4.dll"
@@ -255,10 +274,12 @@ Section "Uninstall"
 	Delete "$INSTDIR\source\install.ico"
 	Delete "$INSTDIR\source\uninstall.ico"
 
+        Delete "$INSTDIR\source\cmdline.py"
         Delete "$INSTDIR\source\convertall.py"
         Delete "$INSTDIR\source\convertdlg.py"
         Delete "$INSTDIR\source\finddlg.py"
         Delete "$INSTDIR\source\helpview.py"
+        Delete "$INSTDIR\source\icondict.py"
         Delete "$INSTDIR\source\icons.py"
         Delete "$INSTDIR\source\modbutton.py"
         Delete "$INSTDIR\source\numedit.py"
@@ -286,6 +307,7 @@ Section "Uninstall"
 	; Remove directories used
         RMDir "$INSTDIR\lib"
         RMDir "$INSTDIR\doc"
+        RMDir "$INSTDIR\icons"
         RMDir "$INSTDIR\source"
 	RMDir "$INSTDIR" ;remove if empty
 	; RMDir /r "$INSTDIR" ;remove even if not empty

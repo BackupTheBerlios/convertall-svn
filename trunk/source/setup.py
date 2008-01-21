@@ -4,8 +4,8 @@ import py2exe
 
 setup(name='convertall',
       windows = [{'script': 'convertall.py',
-                  'icon_resources': [(1, 'convertall.ico')]}],
-      options = {'py2exe': {'includes': ['sip'],
+                  'icon_resources': [(1, '../win/convertall.ico')]}],
+      options = {'py2exe': {'includes': ['sip', 'PyQt4._qt'],
                             'dist_dir': 'dist/lib'}})
 
 # run with: python setup.py py2exe
