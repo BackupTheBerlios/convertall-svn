@@ -8,8 +8,8 @@
 <h2>a unit conversion program</h2>
 
 <p>Written by Doug Bell<br>
-Version 0.4.1<br>
-January 22, 2008</p>
+Version 0.4.2<br>
+May 28, 2008</p>
 </center>
 
 <h2>Contents</h2>
@@ -276,9 +276,28 @@ command line.</p>
 
 <h2><a name="revs"></a>Revision History</h2>
 
-<h3>January 22, 2008- Release 0.4.1</h3>
+<h3>May 28, 2008 - Release 0.4.2</h3>
 
-<ul><b>New features:</b>
+<ul><b>Updates:</b>
+
+  <li>Added the "liter per 100 km" unit for fuel consumption.</li>
+
+</ul>
+
+<ul><b>Bug Fixes:</b>
+
+  <li>Changed the "mach" unit from 331.46 m/s to 340.29 m/s.  It is now
+  correct for STP conditions (15 degrees C).  The previous value was for 0
+  degrees C.</li>
+
+  <li>Fixed a bug that could hide messages about errors in a manually edited
+  unit data file.</li>
+
+</ul>
+
+<h3>January 22, 2008 - Release 0.4.1</h3>
+
+<ul><b>New Features:</b>
 
   <li>An optional command line mode was added to do conversions without the
   graphical interface.  Enter the command ("convertall"), the number,
@@ -311,7 +330,7 @@ command line.</p>
 
 <h3>October 5, 2006 - Release 0.4.0</h3>
 
-<ul><b>New features:</b>
+<ul><b>New Features:</b>
 
   <li>ConvertAll was ported to the Qt4 library. This involved a
   significant rewrite of the code.  The previous versions used Qt3.x on
@@ -362,7 +381,7 @@ command line.</p>
 
 <h3>March 11, 2004 - Release 0.3.0</h3>
 
-<ul><b>New features:</b>
+<ul><b>New Features:</b>
 
   <li>A unit finder window was added to allow the unit list to be
   filtered and searched.</li>
@@ -448,7 +467,7 @@ command line.</p>
 
 <h3>August 20, 2001 - Release 0.2.0</h3>
 
-<ul><b>New features:</b>
+<ul><b>New Features:</b>
 
   <li>A major rewrite was done of the conversion engine.</li>
 
@@ -478,7 +497,7 @@ command line.</p>
 
 <h3>August 10, 2001 - Release 0.1.1</h3>
 
-<ul><b>New features:</b>
+<ul><b>New Features:</b>
 
   <li>Added color controls to the options dialog.</li>
 
