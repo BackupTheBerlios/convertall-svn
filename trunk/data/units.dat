@@ -742,4 +742,6 @@ gravity constant       = 6.673e-11 N*m^2/kg^2
 gas constant           = 8.314472 J/mol*K     # R
 [fuel consumpt.]
 mpg                    = mi/gal               # miles/gallon
+liter per 100 km       = [mpg] 3.785411784 / (x * 0.01609344) ; \
+                         3.785411784 / (x * 0.01609344) # # non-linear
 
