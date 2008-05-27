@@ -15,6 +15,7 @@
 import re
 from math import *
 from unitatom import UnitAtom
+import unitdata
 
 
 class UnitGroup(object):
@@ -189,12 +190,13 @@ class UnitGroup(object):
         while tmpList:
             count += 1
             if count > 5000:
-                raise UnitDataError, 'Circular unit definition'
+                raise unitdata.UnitDataError, 'Circular unit definition'
             unit = tmpList.pop(0)
             if unit.equiv == '!':
                 self.reducedList.append(unit.copy())
             elif not unit.equiv:
-                raise UnitDataError, 'Invalid conversion for "%s"' % unit.name
+                raise unitdata.UnitDataError, \
+                      'Invalid conversion for "%s"' % unit.name
             else:
                 if unit.fromEqn:
                     self.linear = False
@@ -271,7 +273,8 @@ class UnitGroup(object):
         except OverflowError:
             return 1e9999
         except:
-            raise UnitDataError, 'Bad equation for %s' % self.unitList[0].name
+            raise unitdata.UnitDataError, \
+                  'Bad equation for %s' % self.unitList[0].name
 
     def convertStr(self, num, toGroup):
         """Return formatted string of converted number"""

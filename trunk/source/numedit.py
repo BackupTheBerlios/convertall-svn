@@ -17,6 +17,7 @@ from __future__ import division
 import re
 import sys
 from PyQt4 import QtCore, QtGui
+import unitdata
 
 
 class NumEdit(QtGui.QLineEdit):
@@ -43,7 +44,7 @@ class NumEdit(QtGui.QLineEdit):
                 try:
                     self.thisUnit.reduceGroup()
                     self.otherUnit.reduceGroup()
-                except UnitDataError, text:
+                except unitdata.UnitDataError, text:
                     QtGui.QMessageBox.warning(self, 'ConvertAll',
                                               'Error in unit data - %s' % text)
                     return
@@ -82,7 +83,7 @@ class NumEdit(QtGui.QLineEdit):
         try:
             numText = self.thisUnit.convertStr(num, self.otherUnit)
             self.emit(QtCore.SIGNAL('convertNum(QString &)'), numText)
-        except UnitDataError, text:
+        except unitdata.UnitDataError, text:
             QtGui.QMessageBox.warning(self, 'ConvertAll',
                                       'Error in unit data - %s' % text)
 
