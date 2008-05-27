@@ -546,7 +546,7 @@ kt          = knot             # knot
 light speed = 2.99792458e8 m/s
 mph         = mi/hr            # miles/hour
 kph         = km/hr            # kilometers/hour
-mach        = 331.46 m/s       # # speed sound at STP
+mach        = 340.29 m/s       # # speed sound at STP
 [rot. velocity]
 rpm         = rev/min          # rev/min
 rps         = rev/sec          # rev/sec
