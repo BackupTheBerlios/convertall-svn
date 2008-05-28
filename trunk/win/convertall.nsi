@@ -3,7 +3,7 @@
 ; Created       : 2004-03-09
 ; By            : Doug Bell
 ; License       : Free to use, modify and distribute, but with no warranty.
-; Last modified : 2008-01-21
+; Last modified : 2008-05-28
 
 ; ConvertAll is a versatile unit conversion program
 ; Please check the website for details and updates <http://www.bellz.org/>.
@@ -16,7 +16,7 @@
 ; The name of the installer
 
 !define NAME "ConvertAll"
-!define VERSION "0.4.1"
+!define VERSION "0.4.2"
 
 ; Uncomment next line to include pyQt libraries in the installer
 !define PYQT
@@ -119,13 +119,15 @@ SectionEnd
 
                 SetOutPath "$INSTDIR\lib"
 
-                File ".\lib\_qt.pyd"
 		File ".\lib\_socket.pyd"
 		File ".\lib\_ssl.pyd"
                 File ".\lib\bz2.pyd"
+                File ".\lib\mingwm10.dll"
                 File ".\lib\MSVCR71.dll"
 		File ".\lib\python25.dll"
+                File ".\lib\QtCore4.dll"
                 File ".\lib\QtCore.pyd"
+                File ".\lib\QtGui4.dll"
                 File ".\lib\QtGui.pyd"
                 File ".\lib\select.pyd"
                 File ".\lib\sip.pyd"
